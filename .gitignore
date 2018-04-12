@@ -2,7 +2,6 @@
 .cache
 dist
 
-
 # Created by https://www.gitignore.io/api/node,macos,linux,python,pycharm+all,intellij+all,visualstudiocode
 
 ### Intellij+all ###

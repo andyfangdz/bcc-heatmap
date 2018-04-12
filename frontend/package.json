@@ -22,12 +22,14 @@
     "@andyfangdz/prettierrc": "^4.1.1",
     "express": "^4.16.3",
     "http-proxy-middleware": "^0.18.0",
-    "parcel-bundler": "^1.7.0"
+    "parcel-bundler": "^1.7.0",
+    "protobufjs": "^6.8.6"
   },
   "scripts": {
     "start": "./devserver.js",
     "build": "parcel build index.html --public-url ./",
     "clean": "rm -rf dist",
+    "proto": "./scripts/build-proto.sh",
     "prettier": "prettier --write src/**/*.js src/**/*.jsx src/**/*.css src/*.jsx src/*.js",
     "prettier-watch": "npx onchange 'src/*.jsx' 'src/*.js' 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.css' -- npx prettier --write {{changed}}"
   }

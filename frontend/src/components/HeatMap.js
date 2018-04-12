@@ -12,7 +12,7 @@ const x = d => d.bin;
 const y = d => d.bins;
 const z = d => d.count;
 
-export default ({
+export default function HeatMap({
   width,
   height,
   events = false,
@@ -22,7 +22,7 @@ export default ({
     right: 20,
     bottom: 110,
   },
-}) => {
+}) {
   if (width < 10) return null;
 
   // bounds
@@ -99,4 +99,4 @@ export default ({
       </Group>
     </svg>
   );
-};
+}

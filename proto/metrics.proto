@@ -1,0 +1,16 @@
+syntax = "proto3";
+package models;
+
+import "google/protobuf/timestamp.proto";
+
+message HistogramBin {
+    int32 count = 1;
+    double start = 2;
+    double length = 3;
+}
+
+message Histogram {
+    string name = 1;
+    repeated HistogramBin bins = 2;
+    google.protobuf.Timestamp measurement_time = 3;
+}
