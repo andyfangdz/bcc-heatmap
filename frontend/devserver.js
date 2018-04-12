@@ -14,7 +14,7 @@ console.log(`Dev Server Starting at http://localhost:${appPort}`);
 app.use(
     '/api',
     proxy({
-        target: 'http://localhost:4567',
+        target: 'http://localhost:5000',
     })
 );
 

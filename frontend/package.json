@@ -7,8 +7,11 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@blueprintjs/core": "^2.1.1",
+    "normalize.css": "^8.0.0",
     "react": "^16.3.1",
-    "react-dom": "^16.3.1"
+    "react-dom": "^16.3.1",
+    "react-transition-group": "^2.3.0"
   },
   "devDependencies": {
     "@andyfangdz/prettierrc": "^4.1.1",
@@ -21,6 +24,6 @@
     "build": "parcel build index.html --public-url ./",
     "clean": "rm -rf dist",
     "prettier": "prettier --write src/**/*.js src/**/*.jsx src/**/*.css src/*.jsx src/*.js",
-    "prettier-watch": "onchange 'src/*.jsx' 'src/*.js' 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.css' -- prettier --write {{changed}}"
+    "prettier-watch": "npx onchange 'src/*.jsx' 'src/*.js' 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.css' -- npx prettier --write {{changed}}"
   }
 }
