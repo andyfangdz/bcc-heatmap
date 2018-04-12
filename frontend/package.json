@@ -1,0 +1,26 @@
+{
+  "name": "bcc-heatmap-frontend",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "https://github.com/andyfangdz/bcc-heatmap",
+  "author": "Andy Fang",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1"
+  },
+  "devDependencies": {
+    "@andyfangdz/prettierrc": "^4.1.1",
+    "express": "^4.16.3",
+    "http-proxy-middleware": "^0.18.0",
+    "parcel-bundler": "^1.7.0"
+  },
+  "scripts": {
+    "start": "./devserver.js",
+    "build": "parcel build index.html --public-url ./",
+    "clean": "rm -rf dist",
+    "prettier": "prettier --write src/**/*.js src/**/*.jsx src/**/*.css src/*.jsx src/*.js",
+    "prettier-watch": "onchange 'src/*.jsx' 'src/*.js' 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.css' -- prettier --write {{changed}}"
+  }
+}
