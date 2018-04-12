@@ -1,0 +1,5 @@
+.vx-heatmap-circle:hover,
+.vx-heatmap-rect:hover {
+  stroke: white;
+  stroke-width: 1;
+}
