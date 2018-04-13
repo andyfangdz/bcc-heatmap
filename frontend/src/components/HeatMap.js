@@ -1,11 +1,9 @@
 import React from 'react';
 import { Group } from '@vx/group';
-import { genBins } from '@vx/mock-data';
+
 import { scaleBand, scaleLinear } from '@vx/scale';
 import { HeatmapCircle, HeatmapRect } from '@vx/heatmap';
 import { extent, min, max } from 'd3-array';
-
-const data = genBins(16, 16);
 
 // accessors
 const x = d => d.bin;
@@ -13,8 +11,6 @@ const y = d => d.bins;
 const z = d => d.count;
 
 export default function HeatMap({
-  width,
-  height,
   events = false,
   margin = {
     top: 10,
@@ -22,21 +18,21 @@ export default function HeatMap({
     right: 20,
     bottom: 110,
   },
+  data,
+  cellSize = 8,
 }) {
-  if (width < 10) return null;
-
+  const numRows = max(data, d => d.bins.length);
+  const numCols = data.length;
   // bounds
-  const size =
-    width > margin.left + margin.right
-      ? width - margin.left - margin.right
-      : width;
-  const xMax = size / 2;
-  const yMax = height - margin.bottom;
+  const width = margin.left + numCols * cellSize + margin.right;
+  const height = margin.top + numRows * cellSize + margin.bottom;
+  const xMax = margin.left + numCols * cellSize;
+  const yMax = margin.top + numRows * cellSize;
   const dMin = min(data, d => min(y(d), x));
   const dMax = max(data, d => max(y(d), x));
-  const dStep = dMax / data[0].bins.length;
+  const dStep = dMax / numRows;
   const bWidth = xMax / data.length;
-  const bHeight = yMax / data[0].bins.length;
+  const bHeight = yMax / numRows;
   const colorMax = max(data, d => max(y(d), z));
 
   // scales
@@ -48,12 +44,9 @@ export default function HeatMap({
     range: [yMax, 0],
     domain: [dMin, dMax],
   });
+
   const colorScale = scaleLinear({
-    range: ['#77312f', '#f33d15'],
-    domain: [0, colorMax],
-  });
-  const colorScale2 = scaleLinear({
-    range: ['#122549', '#b4fbde'],
+    range: ['#fff', '#f00'],
     domain: [0, colorMax],
   });
   const opacityScale = scaleLinear({
@@ -63,29 +56,12 @@ export default function HeatMap({
 
   return (
     <svg width={width} height={height}>
-      <rect x={0} y={0} width={width} height={height} rx={14} fill="#28272c" />
-      <Group top={margin.top} left={5}>
-        <HeatmapCircle
-          data={data}
-          xScale={xScale}
-          yScale={yScale}
-          colorScale={colorScale}
-          opacityScale={opacityScale}
-          radius={(bWidth + 4) / 2}
-          step={dStep}
-          gap={4}
-          onClick={data => event => {
-            if (!events) return;
-            alert(`clicked: ${JSON.stringify(data.bin)}`);
-          }}
-        />
-      </Group>
-      <Group top={margin.top} left={xMax + margin.left}>
+      <Group top={margin.top} left={margin.left}>
         <HeatmapRect
           data={data}
           xScale={xScale}
           yScale={yScale}
-          colorScale={colorScale2}
+          colorScale={colorScale}
           opacityScale={opacityScale}
           binWidth={bWidth}
           binHeight={bWidth}

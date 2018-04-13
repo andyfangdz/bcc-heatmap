@@ -1,28 +1,21 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import { genBins } from '@vx/mock-data';
 
 import HeatMap from './components/HeatMap';
 
 import './styles';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <HeatMap
-          width={800}
-          height={500}
-          events={true}
-          margin={{
-            top: 10,
-            left: 40,
-            right: 30,
-            bottom: 80,
-          }}
-        />
-      </div>
-    );
-  }
+const NUM_ROWS = 64;
+const NUM_COLS = 128;
+const data = genBins(NUM_COLS, NUM_ROWS);
+
+function App() {
+  return (
+    <div>
+      <HeatMap events={true} data={data} cellSize={4} />
+    </div>
+  );
 }
 
 render(<App />, document.getElementById('root'));
