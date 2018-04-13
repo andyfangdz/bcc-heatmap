@@ -13,10 +13,10 @@ const z = d => d.count;
 export default function HeatMap({
   events = false,
   margin = {
-    top: 10,
-    left: 20,
-    right: 20,
-    bottom: 110,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   data,
   cellSize = 8,
@@ -30,9 +30,6 @@ export default function HeatMap({
   const yMax = margin.top + numRows * cellSize;
   const dMin = min(data, d => min(y(d), x));
   const dMax = max(data, d => max(y(d), x));
-  const dStep = dMax / numRows;
-  const bWidth = xMax / data.length;
-  const bHeight = yMax / numRows;
   const colorMax = max(data, d => max(y(d), z));
 
   // scales
@@ -63,9 +60,9 @@ export default function HeatMap({
           yScale={yScale}
           colorScale={colorScale}
           opacityScale={opacityScale}
-          binWidth={bWidth}
-          binHeight={bWidth}
-          step={dStep}
+          binWidth={cellSize}
+          binHeight={cellSize}
+          step={cellSize}
           gap={0}
           onClick={data => event => {
             if (!events) return;
