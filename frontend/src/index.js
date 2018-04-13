@@ -8,14 +8,23 @@ import './styles';
 
 const NUM_ROWS = 64;
 const NUM_COLS = 128;
-const data = genBins(NUM_COLS, NUM_ROWS);
 
-function App() {
-  return (
-    <div>
-      <HeatMap events={true} data={data} cellSize={4} />
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    data: genBins(NUM_COLS, NUM_ROWS),
+  };
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({ data: genBins(NUM_COLS, NUM_ROWS) });
+    }, 1000);
+  }
+  render() {
+    return (
+      <div>
+        <HeatMap events={true} data={this.state.data} cellSize={4} />
+      </div>
+    );
+  }
 }
 
 render(<App />, document.getElementById('root'));
