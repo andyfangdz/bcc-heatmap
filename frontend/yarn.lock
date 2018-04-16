@@ -2870,6 +2870,10 @@ nopt@~3.0.1:
   dependencies:
     abbrev "1"
 
+normalize-css-color@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/normalize-css-color/-/normalize-css-color-1.0.2.tgz#02991e97cccec6623fe573afbbf0de6a1f3e9f8d"
+
 normalize-path@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-2.1.1.tgz#1ab28b556e198363a8c1a6f7e6fa20137fe6aed9"
@@ -3572,6 +3576,12 @@ react-popper@^0.8.2:
   dependencies:
     popper.js "^1.12.9"
     prop-types "^15.6.0"
+
+react-spring@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-4.1.2.tgz#086ce442585ee2eea7e82c2696a56283eedf7c29"
+  dependencies:
+    normalize-css-color "^1.0.2"
 
 react-transition-group@^2.3.0:
   version "2.3.0"

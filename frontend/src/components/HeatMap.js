@@ -24,8 +24,8 @@ export default function HeatMap({
   const numRows = max(data, d => d.bins.length);
   const numCols = data.length;
   // bounds
-  const width = margin.left + numCols * cellSize + margin.right;
-  const height = margin.top + numRows * cellSize + margin.bottom;
+  const width = margin.left + (numCols + 1) * cellSize + margin.right;
+  const height = margin.top + (numRows + 1) * cellSize + margin.bottom;
   const xMax = margin.left + numCols * cellSize;
   const yMax = margin.top + numRows * cellSize;
   const dMin = min(data, d => min(y(d), x));
