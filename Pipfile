@@ -7,6 +7,12 @@ name = "pypi"
 requests = "*"
 flask = "*"
 protobuf = "*"
+elasticsearch = "*"
+"fabric3" = "*"
+delorean = "*"
+aiohttp = "*"
+cchardet = "*"
+aiodns = "*"
 
 [dev-packages]
 

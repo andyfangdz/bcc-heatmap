@@ -1,12 +1,12 @@
 import React from 'react';
 import { Group } from '@vx/group';
 
-import { scaleBand, scaleLinear } from '@vx/scale';
-import { HeatmapCircle, HeatmapRect } from '@vx/heatmap';
+import { scaleLog, scaleLinear } from '@vx/scale';
+import HeatmapRect from './HeatmapRect';
 import { extent, min, max } from 'd3-array';
 
 // accessors
-const x = d => d.bin;
+const x = d => d.date;
 const y = d => d.bins;
 const z = d => d.count;
 
@@ -19,7 +19,7 @@ export default function HeatMap({
     bottom: 0,
   },
   data,
-  cellSize = 8,
+  cellSize = 16,
 }) {
   const numRows = max(data, d => d.bins.length);
   const numCols = data.length;
@@ -28,8 +28,8 @@ export default function HeatMap({
   const height = margin.top + (numRows + 1) * cellSize + margin.bottom;
   const xMax = margin.left + numCols * cellSize;
   const yMax = margin.top + numRows * cellSize;
-  const dMin = min(data, d => min(y(d), x));
-  const dMax = max(data, d => max(y(d), x));
+  const dMin = min(data, d => min(y(d), it => it.start));
+  const dMax = max(data, d => max(y(d), it => it.start));
   const colorMax = max(data, d => max(y(d), z));
 
   // scales
@@ -37,17 +37,12 @@ export default function HeatMap({
     range: [0, xMax],
     domain: extent(data, x),
   });
-  const yScale = scaleLinear({
-    range: [yMax, 0],
-    domain: [dMin, dMax],
-  });
-
-  const colorScale = scaleLinear({
-    range: ['#fff', '#f00'],
-    domain: [0, colorMax],
-  });
+  const colorScale = scaleLog({
+    range: ['#e0ecf4', '#8856a7'],
+    domain: [1, colorMax],
+  }).clamp(true);
   const opacityScale = scaleLinear({
-    range: [0.1, 1],
+    range: [1, 1],
     domain: [0, colorMax],
   });
 
@@ -56,8 +51,8 @@ export default function HeatMap({
       <Group top={margin.top} left={margin.left}>
         <HeatmapRect
           data={data}
+          bin={x}
           xScale={xScale}
-          yScale={yScale}
           colorScale={colorScale}
           opacityScale={opacityScale}
           binWidth={cellSize}

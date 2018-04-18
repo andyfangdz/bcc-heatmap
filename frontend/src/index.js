@@ -1,44 +1,35 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { genBins } from '@vx/mock-data';
+import { models } from './gen/proto';
+import { toByteArray } from 'base64-js';
+import axios from 'axios';
 
 import HeatMap from './components/HeatMap';
 
 import './styles';
 
-const NUM_ROWS = 64;
-const NUM_COLS = 128;
-
-const genDist = () =>
-  genBins(
-    NUM_COLS,
-    NUM_ROWS,
-    i => i * 150,
-    (i, n) => Math.random() * Math.tan((n / 2 - Math.abs(n / 2 - i)) / (n / 2))
-  );
-
 class App extends React.Component {
   state = {
-    data: genDist(),
+    data: null,
   };
 
-  refresh = () => {
-    this.setState(
-      {
-        data: genDist(),
-      },
-      () => setTimeout(this.refresh, 1000)
-    );
+  fetchData = async () => {
+    const r = await axios('/api/get_histogram');
+    const pb = models.HistogramRender.decode(toByteArray(r.data.payload));
+    this.setState({ data: pb.histograms });
   };
 
   componentDidMount() {
-    setTimeout(this.refresh, 1000);
+    setInterval(this.fetchData, 1000);
   }
 
   render() {
     return (
       <div>
-        <HeatMap events={true} data={this.state.data} cellSize={8} />
+        {this.state.data && (
+          <HeatMap events={true} data={this.state.data} cellSize={16} />
+        )}
       </div>
     );
   }
