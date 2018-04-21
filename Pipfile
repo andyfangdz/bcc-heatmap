@@ -9,9 +9,6 @@ flask = "*"
 protobuf = "*"
 elasticsearch = "*"
 delorean = "*"
-aiohttp = "*"
-cchardet = "*"
-aiodns = "*"
 
 [dev-packages]
 yapf = "*"
