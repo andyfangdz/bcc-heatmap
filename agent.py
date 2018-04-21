@@ -15,9 +15,13 @@ async def gauge_task():
             bin.count = 123
             bin.start = 0.0
             bin.length = 12
-            print(json.dumps({'payload': hist.SerializeToString().decode('utf-8')}))
-            res = await session.post('http://localhost:5000/api/gauge_histogram',
-                                     json={'payload': hist.SerializeToString().decode('utf-8')})
+            print(
+                json.dumps({
+                    'payload': hist.SerializeToString().decode('utf-8')
+                }))
+            res = await session.post(
+                'http://localhost:5000/api/gauge_histogram',
+                json={'payload': hist.SerializeToString().decode('utf-8')})
             print(res)
             await asyncio.sleep(1)
 

@@ -8,13 +8,14 @@ requests = "*"
 flask = "*"
 protobuf = "*"
 elasticsearch = "*"
-"fabric3" = "*"
 delorean = "*"
 aiohttp = "*"
 cchardet = "*"
 aiodns = "*"
 
 [dev-packages]
+yapf = "*"
+"fabric3" = "*"
 
 [requires]
 python_version = "3.6"

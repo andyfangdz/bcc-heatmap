@@ -3,7 +3,7 @@ import { Group } from '@vx/group';
 
 import { scaleLog, scaleLinear } from '@vx/scale';
 import HeatmapRect from './HeatmapRect';
-import { extent, min, max } from 'd3-array';
+import { extent, max } from 'd3-array';
 
 // accessors
 const x = d => d.date;
@@ -27,9 +27,6 @@ export default function HeatMap({
   const width = margin.left + (numCols + 1) * cellSize + margin.right;
   const height = margin.top + (numRows + 1) * cellSize + margin.bottom;
   const xMax = margin.left + numCols * cellSize;
-  const yMax = margin.top + numRows * cellSize;
-  const dMin = min(data, d => min(y(d), it => it.start));
-  const dMax = max(data, d => max(y(d), it => it.start));
   const colorMax = max(data, d => max(y(d), z));
 
   // scales
@@ -61,7 +58,7 @@ export default function HeatMap({
           gap={0}
           onClick={data => event => {
             if (!events) return;
-            alert(`clicked: ${JSON.stringify(data.bin)}`);
+            alert(`clicked: ${JSON.stringify(data)}`);
           }}
         />
       </Group>

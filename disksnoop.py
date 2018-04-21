@@ -72,9 +72,14 @@ def get_update():
         this_bin.count = cv.value
         idx += 1
 
-    client.getPage(API_ENDPOINT, method='POST',
-                   headers={'Content-Type': 'application/json'},
-                   postdata=json.dumps({'payload': base64.b64encode(zlib.compress(hist.SerializeToString()))}))
+    client.getPage(
+        API_ENDPOINT,
+        method='POST',
+        headers={'Content-Type': 'application/json'},
+        postdata=json.dumps({
+            'payload':
+            base64.b64encode(zlib.compress(hist.SerializeToString()))
+        }))
     b['dist'].clear()
     print(datetime.now())
 
