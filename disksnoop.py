@@ -19,7 +19,8 @@ from datetime import datetime
 from models.metrics_pb2 import HistogramGauge
 import json
 import base64
-
+import socket
+import zlib
 
 REQ_WRITE = 1  # from include/linux/blk_types.h
 
@@ -54,27 +55,31 @@ b.attach_kprobe(event="blk_start_request", fn_name="trace_start")
 b.attach_kprobe(event="blk_mq_start_request", fn_name="trace_start")
 b.attach_kprobe(event="blk_account_io_completion", fn_name="trace_completion")
 
+TOPIC = 'bio_latency'
+API_ENDPOINT = 'http://localhost:5000/api/gauge_histogram'
+HOSTNAME = socket.gethostname()
+
 
 def get_update():
     idx = 0
     hist = HistogramGauge()
-    hist.metric = 'bio_latency'
-    hist.host = 'localhost'
-    for _, cv in b['dist'].items()[:50]:
+    hist.metric = TOPIC
+    hist.host = HOSTNAME
+    for _, cv in b['dist'].items():
         this_bin = hist.bins.add()
         this_bin.start = 2 * idx
         this_bin.length = 2
         this_bin.count = cv.value
         idx += 1
 
-    client.getPage('http://localhost:5000/api/gauge_histogram', method='POST',
+    client.getPage(API_ENDPOINT, method='POST',
                    headers={'Content-Type': 'application/json'},
-                   postdata=json.dumps({'payload': base64.b64encode(hist.SerializeToString())}))
+                   postdata=json.dumps({'payload': base64.b64encode(zlib.compress(hist.SerializeToString()))}))
     b['dist'].clear()
     print(datetime.now())
 
 
-l = task.LoopingCall(get_update)
-l.start(0.5)
+bio_latency = task.LoopingCall(get_update)
+bio_latency.start(1)
 
 reactor.run()

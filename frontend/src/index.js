@@ -15,7 +15,7 @@ class App extends React.Component {
   };
 
   fetchData = async () => {
-    const r = await axios('/api/get_histogram');
+    const r = await axios('/api/get_histogram/bio_latency');
     const pb = models.HistogramRender.decode(toByteArray(r.data.payload));
     this.setState({ data: pb.histograms });
   };
