@@ -9,6 +9,7 @@ flask = "*"
 protobuf = "*"
 elasticsearch = "*"
 delorean = "*"
+flask-cors = "*"
 
 [dev-packages]
 yapf = "*"

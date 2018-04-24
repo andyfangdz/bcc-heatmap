@@ -6,6 +6,7 @@ import datetime
 import delorean
 import base64
 from flask import request, jsonify
+from flask_cors import CORS
 
 from models.metrics_pb2 import HistogramGauge, HistogramRender
 
@@ -18,6 +19,7 @@ def now_epoch():
 
 
 app = Flask(__name__)
+CORS(app)
 es = Elasticsearch()
 
 
