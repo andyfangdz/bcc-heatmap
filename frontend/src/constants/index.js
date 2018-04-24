@@ -6,3 +6,5 @@ export const METRICS_AVAILABLE = [
       'The distribution of Block Device (SSD, HDD, Network Drives) I/O operations.',
   },
 ];
+
+export const API_ENDPOINT = 'http://nyx.andyfang.biz:5000';

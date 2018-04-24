@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 import HeatMap from '../components/HeatMap';
 import Histogram from '../components/Histogram';
 import MetricCard from '../components/MetricCard';
-import { METRICS_AVAILABLE } from '../constants';
+import { API_ENDPOINT, METRICS_AVAILABLE } from '../constants';
 import { models } from '../gen/proto';
 
 import appState from '../store';
@@ -31,7 +31,7 @@ class MetricView extends React.Component {
   };
 
   fetchData = async () => {
-    const r = await axios(`/api/get_histogram/${this.state.metric.name}`);
+    const r = await axios(`${API_ENDPOINT}/api/get_histogram/${this.state.metric.name}`);
     const pb = models.HistogramRender.decode(toByteArray(r.data.payload));
     this.setState({ data: pb.histograms });
   };
