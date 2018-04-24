@@ -65,6 +65,7 @@ def get_histogram(topic):
         hist = render.histograms.add()
         hist.ParseFromString(
             zlib.decompress(base64.b64decode(hit['_source']['proto'])))
+        hist.date = hit['_source']['date']
 
     return jsonify({
         'success':

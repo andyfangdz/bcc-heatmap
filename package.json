@@ -1,5 +1,0 @@
-{
-  "scripts": {
-    "yapf": "yapf *.py -i"
-  }
-}

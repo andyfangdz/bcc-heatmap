@@ -1,38 +1,41 @@
-import React, { Component } from 'react';
+import { observer } from "mobx-react";
+import React from 'react';
 import { render } from 'react-dom';
-import { genBins } from '@vx/mock-data';
-import { models } from './gen/proto';
-import { toByteArray } from 'base64-js';
-import axios from 'axios';
-
-import HeatMap from './components/HeatMap';
+import MainAppWithRoutes from './components/MainAppWithRoutes';
+import HeatmapContainer from './containers/HeatmapContainer';
 
 import './styles';
+import HomeContainer from './containers/HomeContainer';
 
-class App extends React.Component {
-  state = {
-    data: null,
-  };
+/*
+{this.state.data && (
+            <HeatMap events={true} data={this.state.data} cellSize={8} />
+          )}
+          <Histogram />
+ */
 
-  fetchData = async () => {
-    const r = await axios('/api/get_histogram/bio_latency');
-    const pb = models.HistogramRender.decode(toByteArray(r.data.payload));
-    this.setState({ data: pb.histograms });
-  };
-
-  componentDidMount() {
-    setInterval(this.fetchData, 1000);
-  }
-
-  render() {
-    return (
-      <div>
-        {this.state.data && (
-          <HeatMap events={true} data={this.state.data} cellSize={16} />
-        )}
-      </div>
-    );
-  }
-}
+const App = observer(MainAppWithRoutes('Heatmaps Dashboard', [
+  {
+    name: 'Home',
+    title: 'Home',
+    path: '/',
+    exact: true,
+    component: HomeContainer,
+  },
+  {
+    name: 'Heatmaps',
+    title: 'Heatmaps',
+    path: '/heatmaps',
+    exact: false,
+    component: HeatmapContainer,
+  },
+  {
+    name: 'Settings',
+    title: 'Settings',
+    path: '/settings',
+    exact: true,
+    component: () => <h1>Settings</h1>,
+  },
+]));
 
 render(<App />, document.getElementById('root'));

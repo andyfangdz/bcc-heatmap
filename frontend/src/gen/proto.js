@@ -756,7 +756,9 @@ export const models = ($root.models = (() => {
           object.date =
             options.longs === String
               ? long.toString()
-              : options.longs === Number ? long.toNumber() : long;
+              : options.longs === Number
+                ? long.toNumber()
+                : long;
         } else object.date = options.longs === String ? '0' : 0;
       }
       if (message.metric != null && message.hasOwnProperty('metric'))

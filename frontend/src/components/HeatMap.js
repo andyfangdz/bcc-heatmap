@@ -1,7 +1,9 @@
+import { observer } from "mobx-react";
 import React from 'react';
 import { Group } from '@vx/group';
 
 import { scaleLog, scaleLinear } from '@vx/scale';
+import appState from "../store";
 import HeatmapRect from './HeatmapRect';
 import { extent, max } from 'd3-array';
 
@@ -9,6 +11,23 @@ import { extent, max } from 'd3-array';
 const x = d => d.date;
 const y = d => d.bins;
 const z = d => d.count;
+
+@observer
+class HeatmapOverlay extends React.Component {
+  render() {
+    return (
+      appState.selectedRowId === null ? null: <rect
+        pointerEvents="none"
+        stroke="white"
+        strokeWidth="2"
+        width={8}
+        height={8 * 64}
+        x={(60 - appState.selectedRowId - 1) * 8}
+        fill="transparent"
+      />
+    );
+  }
+}
 
 export default function HeatMap({
   events = false,
@@ -20,6 +39,7 @@ export default function HeatMap({
   },
   data,
   cellSize = 16,
+  updateHighlightDist,
 }) {
   const numRows = max(data, d => d.bins.length);
   const numCols = data.length;
@@ -56,11 +76,9 @@ export default function HeatMap({
           binHeight={cellSize}
           step={cellSize}
           gap={0}
-          onClick={data => event => {
-            if (!events) return;
-            alert(`clicked: ${JSON.stringify(data)}`);
-          }}
+          updateHighlightDist={updateHighlightDist}
         />
+        <HeatmapOverlay />
       </Group>
     </svg>
   );

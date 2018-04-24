@@ -1,5 +1,7 @@
-.vx-heatmap-circle:hover,
-.vx-heatmap-rect:hover {
-  stroke: white;
-  stroke-width: 1;
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
